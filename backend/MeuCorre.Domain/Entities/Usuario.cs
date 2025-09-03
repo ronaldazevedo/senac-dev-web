@@ -18,10 +18,17 @@ namespace MeuCorre.Domain.Entities
 
         //Construtor para criar um novo usuário.
         //Construtor é a primeira coisa que é executada quando uma classe é instanciada.
-        public Usuario(string nome, string email, DateTime dataNascimento, bool ativo)
+        public Usuario(string nome, string email, string senha, DateTime dataNascimento, bool ativo)
         {
+
+            if(!TemIdadeMinima())
+            {
+                throw new Exception("Usuário deve ter no mínimo 13 anos.");
+            }
+
             Nome = nome;
             Email = email;
+            senha = ValidarSenha(senha);
             DataNascimento = dataNascimento;
             Ativo = ativo;
         }
@@ -44,6 +51,15 @@ namespace MeuCorre.Domain.Entities
             return resultado;
         }
 
+        public string ValidarSenha(string senha)
+        {
+           if(senha.Length < 6)
+            {
+                // Todo fazer um tratamento de erro melhor
+            }
+            return senha;
+        }
+
         public void AtivarUsuario()
         {
             Ativo = true;
@@ -55,5 +71,7 @@ namespace MeuCorre.Domain.Entities
             Ativo = false;
             AtualizarDataMoficacao();
         }
+
+
     }
 }
