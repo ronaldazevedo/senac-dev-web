@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Runtime.InteropServices.JavaScript;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MeuCorre.Domain.Entities
+﻿namespace MeuCorre.Domain.Entities
 {
     public class Usuario : Entidade
     {
@@ -21,14 +13,14 @@ namespace MeuCorre.Domain.Entities
         public Usuario(string nome, string email, string senha, DateTime dataNascimento, bool ativo)
         {
 
-            if(!TemIdadeMinima())
+            if (!TemIdadeMinima())
             {
                 throw new Exception("Usuário deve ter no mínimo 13 anos.");
             }
 
             Nome = nome;
             Email = email;
-            senha = ValidarSenha(senha);
+            Senha = ValidarSenha(senha);
             DataNascimento = dataNascimento;
             Ativo = ativo;
         }
@@ -53,9 +45,9 @@ namespace MeuCorre.Domain.Entities
 
         public string ValidarSenha(string senha)
         {
-           if(senha.Length < 6)
+            if (senha.Length < 6)
             {
-                // Todo fazer um tratamento de erro melhor
+                //Todo Fazer um tratamento de erro melhor
             }
             return senha;
         }
@@ -71,7 +63,5 @@ namespace MeuCorre.Domain.Entities
             Ativo = false;
             AtualizarDataMoficacao();
         }
-
-
     }
 }

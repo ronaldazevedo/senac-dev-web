@@ -1,11 +1,6 @@
 ﻿using MeuCorre.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MeuCorre.Infra.Data.Configurations
 {
@@ -13,13 +8,13 @@ namespace MeuCorre.Infra.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Usuario> builder)
         {
-            //define o nome da tabela no banco de dados
+            //Define o nome da tabela no banco de dados.
             builder.ToTable("Usuarios");
 
-            //define chave primaria
+            //Define a chave primária.
             builder.HasKey(usuario => usuario.Id);
 
-            //define as propriedades da entidade e suas configurações
+            //Define as propriedades da entidade e suas configurações.
             builder.Property(usuario => usuario.Nome)
                 .IsRequired()
                 .HasMaxLength(100);
@@ -43,18 +38,9 @@ namespace MeuCorre.Infra.Data.Configurations
             builder.Property(usuario => usuario.DataAtualizacao)
                 .IsRequired(false);
 
-            //define que o campo Email deve ser único
+            //Define que o e-mail é único.
             builder.HasIndex(usuario => usuario.Email)
                 .IsUnique();
-
-            
-            //Cria um índice único no campo Email para evitar emails duplicados
-
-
-
-
-
-
         }
     }
 }

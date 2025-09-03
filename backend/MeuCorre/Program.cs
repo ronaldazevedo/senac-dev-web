@@ -1,4 +1,7 @@
 
+using MeuCorre.Application;
+using MeuCorre.Infra;
+
 namespace MeuCorre
 {
     public class Program
@@ -10,6 +13,9 @@ namespace MeuCorre
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddInfrastructure(builder.Configuration);
+            NewMethod(builder);
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -31,6 +37,16 @@ namespace MeuCorre
             app.MapControllers();
 
             app.Run();
+        }
+
+        private static void NewMethod(WebApplicationBuilder builder)
+        {
+            NewMethod1(builder);
+        }
+
+        private static void NewMethod1(WebApplicationBuilder builder)
+        {
+            builder.Services.AddApplication(builder.Configuration);
         }
     }
 }
