@@ -1,36 +1,36 @@
-ï»¿# Comandos e passos para migraÃ§Ãµes (Entity Framework Core)
+# Comandos e passos para migrações (Entity Framework Core)
 
-Este arquivo explica, passo a passo, como criar e aplicar migraÃ§Ãµes usando o EF Core. InstruÃ§Ãµes pensadas para uso no Visual Studio (__Abrir no Terminal__) ou via linha de comando. Assuma que o projeto alvo Ã© MeuCorre.Infra e que a aplicaÃ§Ã£o de inicializaÃ§Ã£o (startup) Ã© MeuCorre.
+Este arquivo explica, passo a passo, como criar e aplicar migrações usando o EF Core. Instruções pensadas para uso no Visual Studio (__Abrir no Terminal__) ou via linha de comando. Assuma que o projeto alvo é MeuCorre.Infra e que a aplicação de inicialização (startup) é MeuCorre.
 
-## PrÃ©-requisitos
-- .NET SDK (compatÃ­vel com .NET 8) instalado.
-- Pacote NuGet `Microsoft.EntityFrameworkCore.Design` instalado no projeto que contÃ©m o DbContext.
+## Pré-requisitos
+- .NET SDK (compatível com .NET 8) instalado.
+- Pacote NuGet `Microsoft.EntityFrameworkCore.Design` instalado no projeto que contém o DbContext.
 - (Opcional) Ferramenta global CLI `dotnet-ef` instalada: `dotnet tool install --global dotnet-ef` ou use o `dotnet ef` fornecido pelo SDK.
-- Verifique a string de conexÃ£o e o DbContext corretamente registrados em MeuCorre.Infra/MeuDbContext.cs.
-- Compile a soluÃ§Ã£o antes de criar migraÃ§Ã£o: `dotnet build` ou __Build__ no Visual Studio.
+- Verifique a string de conexão e o DbContext corretamente registrados em MeuCorre.Infra/MeuDbContext.cs.
+- Compile a solução antes de criar migração: `dotnet build` ou __Build__ no Visual Studio.
 
 ---
 
 ## 1) Abrir o terminal no projeto correto
 No Visual Studio:
-- Clique com o botÃ£o direito no projeto MeuCorre.Infra e selecione __Abrir no Terminal__.
-Ou abra um terminal no diretÃ³rio do projeto MeuCorre.Infra (pasta que contÃ©m o arquivo .csproj do projeto de infra).
+- Clique com o botão direito no projeto MeuCorre.Infra e selecione __Abrir no Terminal__.
+Ou abra um terminal no diretório do projeto MeuCorre.Infra (pasta que contém o arquivo .csproj do projeto de infra).
 
 ---
 
-## 2) Adicionar uma nova migraÃ§Ã£o
-RecomendaÃ§Ãµes de nome: use PascalCase e descreva a mudanÃ§a (ex.: `AddUsuarioIsActive`, `RemoveEnderecoCampoX`, `Ticket1234_AddIndex`).
+## 2) Adicionar uma nova migração
+Recomendações de nome: use PascalCase e descreva a mudança (ex.: `AddUsuarioIsActive`, `RemoveEnderecoCampoX`, `Ticket1234_AddIndex`).
 
-Com o terminal aberto no diretÃ³rio do projeto que contÃ©m o DbContext:
+Com o terminal aberto no diretório do projeto que contém o DbContext:
 `dotnet ef migrations add NomeDaMigracao`
 
 Exemplo:
 `dotnet ef migrations add AddUsuarioIsActive`
 
-Caso queira adicionar uma descriÃ§Ã£o Ã  migraÃ§Ã£o, acrescente um hÃ­fen e a descriÃ§Ã£o apÃ³s o nome da migraÃ§Ã£o.
+Caso queira adicionar uma descrição à migração, acrescente um hífen e a descrição após o nome da migração.
 Exemplo: `dotnet ef migrations add AddUsuarioIsActive-AddCampoIsActive`
 
-**AtenÃ§Ã£o:** Se houver mais de um projeto na soluÃ§Ã£o, Ã© necessÃ¡rio especificar o projeto de startup (normalmente MeuCorre) com a opÃ§Ã£o `--startup-project` se o mesmo nÃ£o estiver definido como projeto de inicializaÃ§Ã£o padrÃ£o. Exemplo:
+**Atenção:** Se houver mais de um projeto na solução, é necessário especificar o projeto de startup (normalmente MeuCorre) com a opção `--startup-project` se o mesmo não estiver definido como projeto de inicialização padrão. Exemplo:
 `dotnet ef migrations add NomeDaMigracao --startup-project ../caminho/do/projeto/MeuCorre`
 
 Se precisar especificar projeto e startup:
@@ -38,49 +38,49 @@ Se precisar especificar projeto e startup:
 dotnet ef migrations add NomeDaMigracao --project MeuCorre.Infra --startup-project MeuCorre
 ```
 
-- -p / --project: projeto que contÃ©m as migraÃ§Ãµes (onde fica o DbContext).
-- -s / --startup-project: projeto que contÃ©m a configuraÃ§Ã£o de inicializaÃ§Ã£o (ex.: Program.cs).
+- -p / --project: projeto que contém as migrações (onde fica o DbContext).
+- -s / --startup-project: projeto que contém a configuração de inicialização (ex.: Program.cs).
 
-Se houver mÃºltiplos DbContext, especifique o nome do contexto:
+Se houver múltiplos DbContext, especifique o nome do contexto:
 ---
 
 ## 3) Aplicar (atualizar) o banco de dados
-Com o terminal ainda no diretÃ³rio apropriado:
+Com o terminal ainda no diretório apropriado:
 `dotnet ef database update`
 
-Esse comando aplica todas as migraÃ§Ãµes pendentes para o banco de dados. Durante a atualizaÃ§Ã£o, o EF Core executa as operaÃ§Ãµes necessÃ¡rias para trazer o banco de dados para o estado mais recente conforme definido pelas migraÃ§Ãµes.
+Esse comando aplica todas as migrações pendentes para o banco de dados. Durante a atualização, o EF Core executa as operações necessárias para trazer o banco de dados para o estado mais recente conforme definido pelas migrações.
 
 ---
 
-## 4) Reverter a Ãºltima migraÃ§Ã£o (se necessÃ¡rio)
-Caso precise desfazer a Ãºltima migraÃ§Ã£o aplicada, utilize o comando:
-`dotnet ef database update ÃšltimaMigraÃ§Ã£oAntesDaQueDesejaReverter`
+## 4) Reverter a última migração (se necessário)
+Caso precise desfazer a última migração aplicada, utilize o comando:
+`dotnet ef database update ÚltimaMigraçãoAntesDaQueDesejaReverter`
 
 Exemplo:
 `dotnet ef database update 20230315_InitialCreate`
 
-Em que `20230315_InitialCreate` seria o nome da migraÃ§Ã£o que estÃ¡ imediatamente antes da migraÃ§Ã£o que vocÃª deseja reverter.
+Em que `20230315_InitialCreate` seria o nome da migração que está imediatamente antes da migração que você deseja reverter.
 
 ---
 
-## 5) Dicas e resoluÃ§Ã£o de problemas
-- Se o comando nÃ£o for reconhecido, verifique se o `dotnet-ef` estÃ¡ instalado ou se o pacote `Microsoft.EntityFrameworkCore.Design` estÃ¡ presente.
-- Se a migraÃ§Ã£o nÃ£o reflete mudanÃ§as esperadas, confirme que as classes de entidade e o DbContext foram salvas e a soluÃ§Ã£o foi compilada.
-- Use `dotnet ef migrations list` para ver migraÃ§Ãµes existentes.
-- Para reverter a Ãºltima aplicaÃ§Ã£o: `dotnet ef database update NomeDaMigracaoAnterior`.
-- Mantenha as migraÃ§Ãµes sob controle de versÃ£o (commitar a pasta Migrations).
+## 5) Dicas e resolução de problemas
+- Se o comando não for reconhecido, verifique se o `dotnet-ef` está instalado ou se o pacote `Microsoft.EntityFrameworkCore.Design` está presente.
+- Se a migração não reflete mudanças esperadas, confirme que as classes de entidade e o DbContext foram salvas e a solução foi compilada.
+- Use `dotnet ef migrations list` para ver migrações existentes.
+- Para reverter a última aplicação: `dotnet ef database update NomeDaMigracaoAnterior`.
+- Mantenha as migrações sob controle de versão (commitar a pasta Migrations).
 
 ---
 
-Boas prÃ¡ticas: crie migraÃ§Ãµes pequenas e atÃ´micas, documente o propÃ³sito no nome e no commit, e sempre teste as migraÃ§Ãµes em um ambiente local antes de aplicar em produÃ§Ã£o.
+Boas práticas: crie migrações pequenas e atômicas, documente o propósito no nome e no commit, e sempre teste as migrações em um ambiente local antes de aplicar em produção.
 
 ---
 
 ## 6) Problemas Comuns
-- Se ao rodar `dotnet ef` ocorrer um erro dizendo que o comando nÃ£o foi encontrado, verifique se o `dotnet-ef` estÃ¡ instalado corretamente ou se o caminho para o mesmo estÃ¡ adicionado nas variÃ¡veis de ambiente do sistema.
-- Erros de conexÃ£o com o banco de dados normalmente estÃ£o relacionados Ã  string de conexÃ£o. Verifique se as credenciais, o servidor e o banco de dados estÃ£o corretos e acessÃ­veis.
+- Se ao rodar `dotnet ef` ocorrer um erro dizendo que o comando não foi encontrado, verifique se o `dotnet-ef` está instalado corretamente ou se o caminho para o mesmo está adicionado nas variáveis de ambiente do sistema.
+- Erros de conexão com o banco de dados normalmente estão relacionados à string de conexão. Verifique se as credenciais, o servidor e o banco de dados estão corretos e acessíveis.
 
 ---
 
-## 7) DocumentaÃ§Ã£o Adicional
-Para mais detalhes sobre as alteraÃ§Ãµes em massa (bulk changes) e outras funcionalidades avanÃ§adas, consulte a [documentaÃ§Ã£o oficial do EF Core](https://docs.microsoft.com/ef/core/cli/dotnet).
+## 7) Documentação Adicional
+Para mais detalhes sobre as alterações em massa (bulk changes) e outras funcionalidades avançadas, consulte a [documentação oficial do EF Core](https://docs.microsoft.com/ef/core/cli/dotnet).

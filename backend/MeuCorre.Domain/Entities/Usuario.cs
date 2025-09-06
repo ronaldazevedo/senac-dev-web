@@ -8,6 +8,11 @@
         public DateTime DataNascimento { get; private set; }
         public bool Ativo { get; private set; }
 
+        // Propriedade de navegação para a entidade Categoria pois
+        // o usuário pode ter várias categorias
+        public virtual ICollection<Categoria> Categorias { get; set; }
+
+
         //Construtor para criar um novo usuário.
         //Construtor é a primeira coisa que é executada quando uma classe é instanciada.
         public Usuario(string nome, string email, string senha, DateTime dataNascimento, bool ativo)

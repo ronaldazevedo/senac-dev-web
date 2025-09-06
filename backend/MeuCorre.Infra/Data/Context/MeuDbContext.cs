@@ -17,12 +17,14 @@ namespace MeuCorre.Infra.Data.Context
         //Define a ligação entre a classe c# com a tabela do DB.
         public DbSet<Usuario> Usuarios { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(MeuDbContext).Assembly);
+
+            // Aplica as configurações de mapeamento das entidades
+            modelBuilder.ApplyConfigurationsFromAssembly(
+                typeof(MeuDbContext).Assembly);
         }
-
-
     }
 }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MeuCorre.Infra.Migrations
 {
     [DbContext(typeof(MeuDbContext))]
-    [Migration("20250904003844_AddTabelaUsuario")]
+    [Migration("20250904002956_AddTabelaUsuario")]
     partial class AddTabelaUsuario
     {
         /// <inheritdoc />
