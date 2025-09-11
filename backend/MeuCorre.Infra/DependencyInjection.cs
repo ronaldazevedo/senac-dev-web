@@ -1,4 +1,6 @@
-﻿using MeuCorre.Infra.Data.Context;
+﻿using MeuCorre.Domain.Interfaces.Repositories;
+using MeuCorre.Infra.Data.Context;
+using MeuCorre.Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +18,9 @@ namespace MeuCorre.Infra
             //Registra o MeuDbContext e configura o uso do MySQL
             services.AddDbContext<MeuDbContext>(options => 
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+            //Registra os repositorios para eles funcionarem com injeção de dependência
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
             return services;
         }
