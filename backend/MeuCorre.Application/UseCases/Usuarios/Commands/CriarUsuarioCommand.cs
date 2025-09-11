@@ -1,28 +1,46 @@
-﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using MediatR;
+using MeuCorre.Domain.Interfaces.Repositories;
 
 namespace MeuCorre.Application.UseCases.Usuarios.Commands
 {
-    ///<sumary>
-    ///Comando para criar um novo usuário
-    ///Aqui você pode adicionar propriedades necessárias para criar o usuário, como Nome, Email, Senha, etc.
-    ///<sumary>
+    /// <summary>
+    /// Comando para criar um novo usuário.
+    /// Aqui você pode adicionar propriedades necessárias para criar o usuário
+    /// </summary>
     public class CriarUsuarioCommand : IRequest<string>
     {
-        public string Nome { get; set; }
-        public string Email { get; set; }
-        public string Senha { get; set; }
-        public DateTime DataNascimento { get; set; }
+        [Required(ErrorMessage = "Nome é obrigatório")]
+        public required string Nome { get; set; }
 
-        public CriarUsuarioCommand(string nome, string email, string senha)
+        [Required(ErrorMessage = "Email é obrigatório")]
+        public required string Email { get; set; }
+
+        [Required(ErrorMessage = "Senha é obrigatória")]
+        [MinLength(6, ErrorMessage = "Senha deve ter no mínimo 6 caracteres")]
+        public required string Senha { get; set; }
+
+        [Required(ErrorMessage = "Data de Nascimento é obrigatória")]
+        public DateTime DataNascimento { get; set; }
+    }
+
+    internal class CriarUsuarioCommandHandler : IRequestHandler<CriarUsuarioCommand, string>
+    {
+        private readonly IUsuarioRepository _usuarioRepository;
+
+        public CriarUsuarioCommandHandler(IUsuarioRepository usuarioRepository)
         {
-            Nome = nome;
-            Email = email;
-            Senha = senha;
-        }   
+            _usuarioRepository = usuarioRepository;
+        }
+
+        public async Task<string> Handle(CriarUsuarioCommand request, CancellationToken cancellationToken)
+        {
+            //vai no banco e verifica se já existe um usuário com o email informado
+            var usuarioExistente = await _usuarioRepository.ObterUsuarioPorEmail(request.Email);
+            if (usuarioExistente != null)
+            {
+                return "Já existe um usuário cadastrado com este email.";
+            }
+        }
     }
 }
