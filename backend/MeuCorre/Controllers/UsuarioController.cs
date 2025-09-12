@@ -13,6 +13,7 @@ namespace MeuCorre.Controllers
         {
             _mediator = mediator;
         }
+
         ///<summary>
         ///Cria um novo usuário.
         ///<param name="command"></param>
@@ -31,5 +32,22 @@ namespace MeuCorre.Controllers
             }
         }
 
+        ///<summary>
+        ///Atualiza um usuário existente.
+        ///<param name="command"></param>
+        /// </summary>
+        [HttpPut]
+        public async Task<IActionResult> AtualizarUsuario([FromBody] AtualizarUsuarioCommand command)
+        {
+            var (mensagem, sucesso) = await _mediator.Send(command);
+            if (sucesso)
+            {
+                return Ok(mensagem);
+            }
+            else
+            {
+                return BadRequest(mensagem);
+            }
+        }
     }
 }
