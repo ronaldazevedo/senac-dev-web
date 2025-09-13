@@ -11,5 +11,6 @@ namespace MeuCorre.Domain.Interfaces.Repositories
         //? significa que o select pode retornar nulo, ou seja,
         //o usuário pode não ser encontrado
         Task<Usuario?> ObterUsuarioPorEmail(string email);
+        Task<Usuario?> ObterUsuarioPorId(Guid id);
     }
 }

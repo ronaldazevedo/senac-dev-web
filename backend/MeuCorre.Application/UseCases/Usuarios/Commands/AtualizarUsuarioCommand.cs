@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MeuCorre.Domain.Entities;
 using MeuCorre.Domain.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
@@ -48,11 +49,14 @@ namespace MeuCorre.Application.UseCases.Usuarios.Commands
                 return ("Usuário deve ser maior de 13 anos.", false);
             }
 
-            usuarioExistente.AlterarNome(request.Nome);
-            usuarioExistente.AlterarEmail(request.Email);
-            usuarioExistente.AlterarDataNascimento(request.DataNascimento);
+            var usuarioAtualizado = new Usuario(
+            request.Nome,
+            request.Email,
+            request.DataNascimento,
+            true
+            );
 
-            await _usuarioRepository.AtualizarUsuarioAsync(usuarioExistente);
+            await _usuarioRepository.AtualizarUsuarioAsync(usuarioAtualizado);
             return ("Usuário atualizado com sucesso.", true);
         }
     }
