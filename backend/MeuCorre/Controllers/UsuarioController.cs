@@ -47,7 +47,7 @@ namespace MeuCorre.Controllers
             }
             else
             {
-                return BadRequest(mensagem);
+                return NotFound(mensagem);
             }
         }
 
