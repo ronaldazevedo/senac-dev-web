@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace MeuCorre.Domain.Entities
 {
@@ -21,7 +20,7 @@ namespace MeuCorre.Domain.Entities
         public Usuario(string nome, string email, string senha, DateTime dataNascimento, bool ativo)
         {
             ValidarEntidadeUsuario(email, senha, dataNascimento);
-
+            
             Nome = nome;
             Email = email;
             Senha = senha;
@@ -46,6 +45,8 @@ namespace MeuCorre.Domain.Entities
             Ativo = false;
             AtualizarDataMoficacao();
         }
+
+
 
         private void ValidarEntidadeUsuario(string email, string senha, DateTime nascimento)
         {
@@ -78,7 +79,7 @@ namespace MeuCorre.Domain.Entities
             {
                 throw new Exception("A senha deve contar pelo menos uma letra maiuscula");
             }
-            if (!Regex.IsMatch(senha, "[0-9]"))
+            if (!Regex.IsMatch(senha,"[0-9]"))
             {
                 throw new Exception("A senha deve contar pelo menos um números");
             }

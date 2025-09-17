@@ -12,7 +12,6 @@
     <Folder Include="Mappers\" />
     <Folder Include="Common\" />
     <Folder Include="Validators\" />
-    <Folder Include="UseCases\Categorias\" />
     <Folder Include="UseCases\Relatorios\" />
     <Folder Include="UseCases\Transacoes\" />
   </ItemGroup>
