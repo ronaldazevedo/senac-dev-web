@@ -30,7 +30,7 @@ namespace MeuCorre.Domain.Entities
             Ativo = true;
         }
 
-        public void AtualizarInformacoes(string nome, TipoTransacao tipoDaTransacao, bool ativo,
+        public void AtualizarInformacoes(string nome, TipoTransacao tipoDaTransacao,
                                          string descricao, string cor, string icone)
         {
             Nome = nome.ToUpper();
@@ -38,7 +38,6 @@ namespace MeuCorre.Domain.Entities
             Cor = cor;
             Icone = icone;
             TipoDaTransacao = tipoDaTransacao;
-            Ativo = ativo;
             AtualizarDataMoficacao();
         }
         public void Ativar()
