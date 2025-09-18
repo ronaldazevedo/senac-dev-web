@@ -19,7 +19,7 @@ namespace MeuCorre.Domain.Entities
 
         public Categoria(Guid usuarioId, string nome, TipoTransacao tipoDaTransacao, string? descricao, string? cor, string? icone)
         {
-            ValidarEntidadeCategoria(cor);
+            ValidarEntidadeCategoria(cor: cor);
 
             UsuarioId = usuarioId;
             Nome = nome.ToUpper();

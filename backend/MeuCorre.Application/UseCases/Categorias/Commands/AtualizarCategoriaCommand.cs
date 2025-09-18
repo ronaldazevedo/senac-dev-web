@@ -50,7 +50,7 @@ namespace MeuCorre.Application.UseCases.Categorias.Commands
                 request.Tipo,
                 request.Descricao,
                 request.Cor,
-                request.Icone
+                icone: request.Icone
                 );
 
             await _categoriaRepository.AtualizarAsync(categoria);

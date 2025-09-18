@@ -35,7 +35,7 @@ namespace MeuCorre.Application.UseCases.Categorias.Commands
            
             await _categoriaRepository.RemoverAsync(categoria);
 
-            return ("Categoria removida com sucesso", true);
+             return ("Categoria removida com sucesso", true);
         }
     }
 }
