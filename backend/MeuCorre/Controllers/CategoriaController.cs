@@ -56,6 +56,7 @@ namespace MeuCorre.Controllers
         }
 
         [HttpDelete]
+        [Route("api/categorias")]
         public async Task<IActionResult> DeletarCategoria([FromBody] DeletarCategoriaCommad command)
         {
             var (mensagem, sucesso) = await _mediator.Send(command);

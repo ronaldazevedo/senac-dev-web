@@ -59,10 +59,8 @@ namespace MeuCorre.Domain.Entities
                 return; //retorna caso a cor seja nula ou vazia
             }
 
-            //#FF02AB
-            var corRegex = new Regex(@"^#?([0-9a-fA-F]{3}){1,2}$");
-
-            if (!corRegex.IsMatch(cor))
+            
+            if (!Regex.IsMatch(cor, "^#([A-Fa-f0-9]{6})$"))
             {
                 throw new Exception("A cor deve estar no formato hexadecimal");
             }
