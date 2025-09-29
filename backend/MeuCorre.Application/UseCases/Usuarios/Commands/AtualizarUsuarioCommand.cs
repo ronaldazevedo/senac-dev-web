@@ -1,12 +1,6 @@
-﻿using MediatR;
-using MeuCorre.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using MediatR;
 using MeuCorre.Domain.Interfaces.Repositories;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MeuCorre.Application.UseCases.Usuarios.Commands
 {
@@ -33,7 +27,7 @@ namespace MeuCorre.Application.UseCases.Usuarios.Commands
         public async Task<(string, bool)> Handle(AtualizarUsuarioCommand request, CancellationToken cancellationToken)
         {
             var usuario = await _usuarioRepository.ObterUsuarioPorId(request.Id);
-            if (usuario == null)
+            if(usuario == null)
             {
                 return ("Usuário não encontrado.", false);
             }
@@ -42,8 +36,7 @@ namespace MeuCorre.Application.UseCases.Usuarios.Commands
 
             await _usuarioRepository.AtualizarUsuarioAsync(usuario);
 
-            return ("Usuário atualizado com sucesso.", true);
-
+            return ("Usuário atualizado com sucesso", true);
         }
     }
 }

@@ -13,7 +13,6 @@ namespace MeuCorre.Controllers
         {
             _mediator = mediator;
         }
-
         ///<summary>
         ///Cria um novo usuário.
         ///<param name="command"></param>
@@ -28,19 +27,15 @@ namespace MeuCorre.Controllers
             }
             else
             {
-                return BadRequest(mensagem);
+                return Conflict(mensagem);
             }
         }
 
-        ///<summary>
-        ///Atualiza um usuário existente.
-        ///<param name="command"></param>
-        /// </summary>
         [HttpPut("{id}")]
-        public async Task<IActionResult> AtualizarUsuario(Guid id,[FromBody] AtualizarUsuarioCommand command)
+        public async Task<IActionResult> AtualizarUsuario(Guid id, [FromBody] AtualizarUsuarioCommand command)
         {
             command.Id = id;
-            var (mensagem, sucesso) = await _mediator.Send(command);
+            var(mensagem, sucesso) = await _mediator.Send(command);
             if (sucesso)
             {
                 return Ok(mensagem);
@@ -50,7 +45,6 @@ namespace MeuCorre.Controllers
                 return NotFound(mensagem);
             }
         }
-
 
     }
 }

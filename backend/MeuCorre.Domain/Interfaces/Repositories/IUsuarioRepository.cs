@@ -12,5 +12,6 @@ namespace MeuCorre.Domain.Interfaces.Repositories
         //o usuário pode não ser encontrado
         Task<Usuario?> ObterUsuarioPorEmail(string email);
         Task<Usuario?> ObterUsuarioPorId(Guid id);
+
     }
 }
