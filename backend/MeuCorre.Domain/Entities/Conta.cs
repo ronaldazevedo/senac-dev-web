@@ -49,7 +49,7 @@ namespace MeuCorre.Domain.Entities
         public void DefinirLimite(decimal? novoLimite)
         {
             Limite = novoLimite;
-            DataAtualizacao = DateTime.Now;
+            DataAtualizacao = DateTime.Now; 
         }
     }
 }
