@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MeuCorre.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,7 @@ namespace MeuCorre.Domain.Entities
         public string? Cor { get; set; }
         public string? Icone { get; set; }
         public DateTime? DataAtualizacao { get; set; }
+        public TipoLimite? TipoLimite { get; set; }
 
         public Usuario Usuario { get; set; }
 
@@ -51,5 +53,15 @@ namespace MeuCorre.Domain.Entities
             Limite = novoLimite;
             DataAtualizacao = DateTime.Now; 
         }
+        public void DefinirTipoLimite(TipoLimite? tipoLimite)
+        {
+            if (Tipo == TipoConta.CartaoCredito.ToString())
+            {
+                TipoLimite = tipoLimite;
+                DataAtualizacao = DateTime.Now;
+            }
+        }
+
+
     }
 }
