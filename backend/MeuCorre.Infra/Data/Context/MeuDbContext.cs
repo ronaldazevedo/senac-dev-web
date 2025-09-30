@@ -27,5 +27,21 @@ namespace MeuCorre.Infra.Data.Context
             modelBuilder.ApplyConfigurationsFromAssembly(
                 typeof(MeuDbContext).Assembly);
         }
+
+        public class MeuCorreDbContext : DbContext
+        {
+            public MeuCorreDbContext(DbContextOptions<MeuCorreDbContext> options)
+                : base(options)
+            {
+            }
+
+            public DbSet<Conta> Contas { get; set; }
+
+            protected override void OnModelCreating(ModelBuilder modelBuilder)
+            {
+                modelBuilder.ApplyConfigurationsFromAssembly(typeof(MeuCorreDbContext).Assembly);
+                base.OnModelCreating(modelBuilder);
+            }
+        }
     }
 }
