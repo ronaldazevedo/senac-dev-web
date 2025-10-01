@@ -24,6 +24,7 @@ namespace MeuCorre.Domain.Enums
         /// <summary>
         /// Conta de cartão de crédito utilizada para compras parceladas ou à vista.
         /// </summary>
-        CartaoCredito = 3
+        CartaoCredito = 3,
+        Cartao = 4
     }
 }

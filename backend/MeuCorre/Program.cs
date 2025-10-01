@@ -1,6 +1,7 @@
 
 using MeuCorre.Application;
 using MeuCorre.Infra;
+using MeuCorre.Infra.Data.Context;
 
 namespace MeuCorre
 {
@@ -15,10 +16,12 @@ namespace MeuCorre
             builder.Services.AddControllers();
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddApplication(builder.Configuration);
+            builder.Services.AddDbContext<MeuDbContext>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
 
             var app = builder.Build();
 
