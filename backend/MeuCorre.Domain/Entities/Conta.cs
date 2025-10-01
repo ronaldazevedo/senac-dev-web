@@ -132,7 +132,11 @@ namespace MeuCorre.Domain.Entities
         {
             DataAtualizacao = data;
         }
-
+        public void Reativar()
+        {
+            Ativo = true;
+            DataAtualizacao = DateTime.Now;
+        }
 
     }
 }
