@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MeuCorre.Application.Interfaces;
 using MeuCorre.Domain.Interfaces.Repositories;
+using MeuCorre.Application.UseCases.Contas.Queries;
 
 namespace MeuCorre.Infra
 {
@@ -20,6 +21,7 @@ namespace MeuCorre.Infra
             services.AddScoped<IContaRepository, ContaRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ListarContasQueryHandler).Assembly));
 
             // Unit of Work
             services.AddScoped<IUnitOfWork, UnitOfWork>();
