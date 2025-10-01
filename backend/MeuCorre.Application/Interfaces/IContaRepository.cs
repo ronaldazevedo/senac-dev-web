@@ -17,6 +17,6 @@ namespace MeuCorre.Application.Interfaces
         Task<decimal> CalcularSaldoTotalAsync(Guid usuarioId);
         Task AtualizarAsync(Conta conta);
         Task ExcluirAsync(Conta conta);
-
+        Task<IEnumerable<Conta>> ObterPorUsuarioAsync(Guid usuarioId, bool? apenasAtivas);
     }
 }

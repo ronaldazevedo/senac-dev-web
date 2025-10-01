@@ -112,6 +112,16 @@ namespace MeuCorre.Infra.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public async Task<IEnumerable<Conta>> ObterPorUsuarioAsync(Guid usuarioId, bool? apenasAtivas)
+        {
+            var query = _context.Contas.Where(c => c.UsuarioId == usuarioId);
+
+            if (apenasAtivas.HasValue && apenasAtivas.Value)
+                query = query.Where(c => c.Ativo);
+
+            return await query.ToListAsync();
+        }
     }
 }
 

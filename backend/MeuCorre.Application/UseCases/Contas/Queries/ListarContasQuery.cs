@@ -29,6 +29,7 @@ namespace MeuCorre.Application.UseCases.Contas.Queries
         public TipoConta? FiltrarPorTipo { get; set; }
         public bool ApenasAtivas { get; set; } = true;
         public string? OrdenarPor { get; set; } // "nome", "saldo", "tipo"
+        public TipoConta TipoConta { get; set; }
     }
 
     // Handler
