@@ -10,6 +10,7 @@ namespace MeuCorre.Domain.Entities
 {
     public class Conta : Entidade
     {
+
         public Guid Id { get; set; }
         public Guid UsuarioId { get; set; }
 
@@ -36,6 +37,8 @@ namespace MeuCorre.Domain.Entities
         public Usuario Usuario { get; set; } = null;   
         public bool Ativa { get; set; }
         public DateTime CriadoEm { get; set; }
+
+
 
         public Conta(string nome, TipoConta tipo, decimal saldo, Guid usuarioId)
         {
@@ -82,5 +85,54 @@ namespace MeuCorre.Domain.Entities
         {
             return System.Text.RegularExpressions.Regex.IsMatch(cor, "^#([0-9A-Fa-f]{6})$");
         }
+
+        public void AlterarNome(string nome)
+        {
+            Nome = nome;
+            DataAtualizacao = DateTime.Now;
+        }
+
+        public void AlterarCor(string cor)
+        {
+            Cor = cor;
+            DataAtualizacao = DateTime.Now;
+        }
+
+        public void AlterarIcone(string icone)
+        {
+            Icone = icone;
+            DataAtualizacao = DateTime.Now;
+        }
+
+        public void AlterarLimite(decimal limite)
+        {
+            Limite = limite;
+            DataAtualizacao = DateTime.Now;
+        }
+
+        public void AlterarDiaVencimento(int dia)
+        {
+            DiaVencimento = dia;
+            DataAtualizacao = DateTime.Now;
+        }
+
+        public void AlterarDiaFechamento(int dia)
+        {
+            DiaFechamento = dia;
+            DataAtualizacao = DateTime.Now;
+        }
+
+        public void AlterarStatus(bool ativa)
+        {
+            Ativa = ativa;
+            DataAtualizacao = DateTime.Now;
+        }
+
+        public void AtualizarData(DateTime data)
+        {
+            DataAtualizacao = data;
+        }
+
+
     }
 }

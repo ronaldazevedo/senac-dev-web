@@ -13,6 +13,7 @@ namespace MeuCorre.Application
             {
                 services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ListarContasQueryHandler).Assembly));
                 return services;
+
             }
         }
     
