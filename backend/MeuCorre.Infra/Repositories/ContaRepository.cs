@@ -107,6 +107,11 @@ namespace MeuCorre.Infra.Repositories
                 .Where(c => c.UsuarioId == usuarioId && c.Ativa)
                 .SumAsync(c => c.Saldo);
         }
+
+        public Task ExcluirAsync(Conta conta)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

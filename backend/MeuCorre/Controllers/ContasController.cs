@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MeuCorre.Application.UseCases.Contas.Commands;
 using MeuCorre.Application.UseCases.Contas.Queries;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,11 +16,14 @@ namespace MeuCorre.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> ListarContas([FromQuery] ListarContasQuery query)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> ExcluirConta(Guid id, [FromBody] ExcluirContaCommand command)
         {
-            var resultado = await _mediator.Send(query);
-            return Ok(resultado);
+            if (id != command.ContaId)
+                return BadRequest("ID da URL não corresponde ao ID da conta.");
+
+            var resultado = await _mediator.Send(command);
+            return StatusCode(resultado.status, resultado.mensagem);
         }
     }
 }
