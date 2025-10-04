@@ -1,14 +1,19 @@
-﻿using MediatR;
-using MeuCorre.Application.Interfaces;
-using MeuCorre.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MeuCorre.Domain.Enums;
+using MeuCorre.Domain.Interfaces.Repositories;
+using MediatR;
+using Application.Interfaces;
 
 namespace MeuCorre.Application.UseCases.Contas.Queries
 {
+    public class ListarContasQuery : IRequest<List<ContaResumoResponse>>
+    {
+        public Guid UsuarioId { get; set; }
+        public TipoConta? FiltrarPorTipo { get; set; }
+        public bool ApenasAtivas { get; set; } = true;
+        public string? OrdenarPor { get; set; }
+        public TipoConta? Tipo { get; set; }
+    }
+
     public class ContaResumoResponse
     {
         public Guid Id { get; set; }
@@ -17,22 +22,9 @@ namespace MeuCorre.Application.UseCases.Contas.Queries
         public decimal Saldo { get; set; }
         public decimal? Limite { get; set; }
         public decimal? LimiteDisponivel { get; set; }
-        public bool Ativa { get; set; }
-        public string? Cor { get; set; }
-        public string? Icone { get; set; }
+        public bool Ativo { get; set; }
     }
 
-    // Query
-    public class ListarContasQuery : IRequest<List<ContaResumoResponse>>
-    {
-        public Guid UsuarioId { get; set; }
-        public TipoConta? FiltrarPorTipo { get; set; }
-        public bool ApenasAtivas { get; set; } = true;
-        public string? OrdenarPor { get; set; } // "nome", "saldo", "tipo"
-        public TipoConta TipoConta { get; set; }
-    }
-
-    // Handler
     public class ListarContasQueryHandler : IRequestHandler<ListarContasQuery, List<ContaResumoResponse>>
     {
         private readonly IContaRepository _contaRepository;
@@ -44,23 +36,27 @@ namespace MeuCorre.Application.UseCases.Contas.Queries
 
         public async Task<List<ContaResumoResponse>> Handle(ListarContasQuery request, CancellationToken cancellationToken)
         {
-            var contas = await _contaRepository.ObterPorUsuarioAsync(request.UsuarioId, request.ApenasAtivas);
+           
+            var contas = await _contaRepository.ObterPorUsuarioAsync(request.UsuarioId);
 
-            // Filtro por tipo
+            
             if (request.FiltrarPorTipo.HasValue)
                 contas = contas.Where(c => c.Tipo == request.FiltrarPorTipo.Value).ToList();
 
-            // Ordenação
+            if (request.ApenasAtivas)
+                contas = contas.Where(c => c.Ativo).ToList();
+
+           
             contas = request.OrdenarPor?.ToLower() switch
             {
                 "nome" => contas.OrderBy(c => c.Nome).ToList(),
-                "saldo" => contas.OrderByDescending(c => c.Saldo).ToList(),
                 "tipo" => contas.OrderBy(c => c.Tipo).ToList(),
-                _ => contas
+                "saldo" => contas.OrderByDescending(c => c.Saldo).ToList(),
+                _ => contas.OrderBy(c => c.Nome).ToList() // padrão
             };
 
-            // Mapeamento para DTO
-            var resultado = contas.Select(c => new ContaResumoResponse
+            
+            var resposta = contas.Select(c => new ContaResumoResponse
             {
                 Id = c.Id,
                 Nome = c.Nome,
@@ -70,12 +66,10 @@ namespace MeuCorre.Application.UseCases.Contas.Queries
                 LimiteDisponivel = c.Tipo == TipoConta.CartaoCredito && c.Limite.HasValue
                     ? c.Limite.Value - c.Saldo
                     : null,
-                Ativa = c.Ativa,
-                Cor = c.Cor,
-                Icone = c.Icone
+                Ativo = c.Ativo
             }).ToList();
 
-            return resultado;
+            return resposta;
         }
     }
 }

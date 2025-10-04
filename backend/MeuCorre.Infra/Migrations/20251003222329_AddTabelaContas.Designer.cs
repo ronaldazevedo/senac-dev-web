@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MeuCorre.Infra.Migrations
 {
     [DbContext(typeof(MeuDbContext))]
-    [Migration("20251001230546_AddTabelaContas")]
+    [Migration("20251003222329_AddTabelaContas")]
     partial class AddTabelaContas
     {
         /// <inheritdoc />
@@ -72,17 +72,11 @@ namespace MeuCorre.Infra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<bool>("Ativa")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<bool>("Ativo")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Cor")
                         .HasColumnType("longtext");
-
-                    b.Property<DateTime>("CriadoEm")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DataAtualizacao")
                         .HasColumnType("datetime(6)");
@@ -104,8 +98,7 @@ namespace MeuCorre.Infra.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("longtext");
 
                     b.Property<decimal>("Saldo")
                         .HasColumnType("decimal(65,30)");
@@ -123,7 +116,7 @@ namespace MeuCorre.Infra.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Contas");
+                    b.ToTable("Conta");
                 });
 
             modelBuilder.Entity("MeuCorre.Domain.Entities.Usuario", b =>
@@ -175,7 +168,7 @@ namespace MeuCorre.Infra.Migrations
             modelBuilder.Entity("MeuCorre.Domain.Entities.Conta", b =>
                 {
                     b.HasOne("MeuCorre.Domain.Entities.Usuario", "Usuario")
-                        .WithMany()
+                        .WithMany("Contas")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -186,6 +179,8 @@ namespace MeuCorre.Infra.Migrations
             modelBuilder.Entity("MeuCorre.Domain.Entities.Usuario", b =>
                 {
                     b.Navigation("Categorias");
+
+                    b.Navigation("Contas");
                 });
 #pragma warning restore 612, 618
         }

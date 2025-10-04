@@ -24,10 +24,6 @@ namespace MeuCorre.Application.UseCases.Categorias.Commands
             var categoria =
                 await _categoriaRepository.ObterPorIdAsync(request.CategoriaId);
 
-            if (categoria == null)
-            {
-                return ("Categoria não encontrada", false);
-            }
             categoria.Inativar();
 
             await _categoriaRepository.AtualizarAsync(categoria);

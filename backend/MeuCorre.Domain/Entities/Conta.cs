@@ -1,142 +1,124 @@
 ﻿using MeuCorre.Domain.Enums;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace MeuCorre.Domain.Entities
 {
     public class Conta : Entidade
     {
+        private string tipo;
 
         public Guid Id { get; set; }
-        public Guid UsuarioId { get; set; }
-
-        [Required(ErrorMessage = "O nome é obrigatório.")]
-        [StringLength(50, MinimumLength = 2, ErrorMessage = "O nome deve ter entre 2 e 50 caracteres.")]
-
         public string Nome { get; set; }
-        public TipoConta Tipo { get; private set; }
+        public TipoConta Tipo { get; set; } 
         public decimal Saldo { get; set; }
-        public string? Cor { get; set; }
-        public decimal? Limite { get; set; }
-        public int? DiaVencimento { get; set; }
-        public int? DiaFechamento { get; set; }
+        public Guid UsuarioId { get; set; }
         public bool Ativo { get; set; }
         public DateTime DataCriacao { get; set; }
 
-        
-        
-       
+        public decimal? Limite { get; set; }
+        public int? DiaFechamento { get; set; }
+        public int? DiaVencimento { get; set; }
+        public string? Cor { get; set; }
         public string? Icone { get; set; }
         public DateTime? DataAtualizacao { get; set; }
         public TipoLimite? TipoLimite { get; set; }
 
-        public Usuario Usuario { get; set; } = null;   
-        public bool Ativa { get; set; }
-        public DateTime CriadoEm { get; set; }
+        public virtual Usuario Usuario { get; set; }
 
-
-
-        public Conta(string nome, TipoConta tipo, decimal saldo, Guid usuarioId)
+        public Conta(Guid id, string nome, TipoConta tipo, decimal saldo, Guid usuarioId) 
         {
-            Id = Guid.NewGuid();
+            Id = id;
             Nome = nome;
             Tipo = tipo;
             Saldo = saldo;
             UsuarioId = usuarioId;
             Ativo = true;
-            DataCriacao = DateTime.Now;
+            DataCriacao = DateTime.UtcNow;
         }
 
-        public void AtualizarSaldo(decimal valor)
+        public Conta(Guid id, string nome, string tipo, decimal saldo, Guid usuarioId) : base(id)
         {
-            Saldo += valor;
-            DataAtualizacao = DateTime.Now;
+            Nome = nome;
+            this.tipo = tipo;
+            Saldo = saldo;
+            UsuarioId = usuarioId;
         }
+
+        public void AtualizarNome(string nome)
+        {
+            Nome = nome;
+            AtualizarData();
+        }
+
+        public void AtualizarTipo(TipoConta tipo) 
+        {
+            Tipo = tipo;
+            AtualizarData();
+        }
+
+        public void AtualizarSaldo(decimal novoSaldo)
+        {
+            Saldo = novoSaldo;
+            AtualizarData();
+        }
+
+        public void AtualizarLimite(decimal? limite)
+        {
+            Limite = limite;
+            AtualizarData();
+        }
+
+        public void AtualizarFechamentoEVencimento(int? fechamento, int? vencimento)
+        {
+            DiaFechamento = fechamento;
+            DiaVencimento = vencimento;
+            AtualizarData();
+        }
+
+        public void AtualizarVisual(string? cor, string? icone)
+        {
+            Cor = cor;
+            Icone = icone;
+            AtualizarData();
+        }
+
         public void Desativar()
         {
             Ativo = false;
-            DataAtualizacao = DateTime.Now;
+            AtualizarData();
         }
 
-        public void DefinirLimite(decimal? novoLimite)
-        {
-            Limite = novoLimite;
-            DataAtualizacao = DateTime.Now; 
-        }
         public void DefinirTipoLimite(TipoLimite? tipoLimite)
         {
-            if (Tipo == TipoConta.CartaoCredito)
+            TipoLimite = tipoLimite;
+            AtualizarData();
+        }
+
+        private void AtualizarData()
+        {
+            DataAtualizacao = DateTime.UtcNow;
+        }
+
+        public void Validar()
+        {
+            if (string.IsNullOrWhiteSpace(Nome))
+                throw new ArgumentException("Nome da conta é obrigatório.");
+
+            if (Nome.Length < 2 || Nome.Length > 50)
+                throw new ArgumentException("Nome deve ter entre 2 e 50 caracteres.");
+
+            if (Tipo == TipoConta.CartaoCredito) 
             {
-                TipoLimite = tipoLimite;
-                DataAtualizacao = DateTime.Now;
+                if (!Limite.HasValue || Limite <= 0)
+                    throw new ArgumentException("Limite é obrigatório e deve ser maior que zero para cartão.");
+
+                if (!DiaVencimento.HasValue || DiaVencimento < 1 || DiaVencimento > 31)
+                    throw new ArgumentException("Dia de vencimento deve estar entre 1 e 31.");
             }
-        }
-        public bool CorEhValida(bool cor)
-        {
-            if (string.IsNullOrWhiteSpace(Cor)) return true;
-            return System.Text.RegularExpressions.Regex.IsMatch(Cor, "^#([0-9A-Fa-f]{6})$");
-        }
 
-        public static bool CorEhValida(string cor)
-        {
-            return System.Text.RegularExpressions.Regex.IsMatch(cor, "^#([0-9A-Fa-f]{6})$");
+            if (!string.IsNullOrWhiteSpace(Cor) && !Regex.IsMatch(Cor, "^#([A-Fa-f0-9]{6})$"))
+                throw new ArgumentException("Cor inválida. Use o formato #RRGGBB.");
         }
-
-        public void AlterarNome(string nome)
-        {
-            Nome = nome;
-            DataAtualizacao = DateTime.Now;
-        }
-
-        public void AlterarCor(string cor)
-        {
-            Cor = cor;
-            DataAtualizacao = DateTime.Now;
-        }
-
-        public void AlterarIcone(string icone)
-        {
-            Icone = icone;
-            DataAtualizacao = DateTime.Now;
-        }
-
-        public void AlterarLimite(decimal limite)
-        {
-            Limite = limite;
-            DataAtualizacao = DateTime.Now;
-        }
-
-        public void AlterarDiaVencimento(int dia)
-        {
-            DiaVencimento = dia;
-            DataAtualizacao = DateTime.Now;
-        }
-
-        public void AlterarDiaFechamento(int dia)
-        {
-            DiaFechamento = dia;
-            DataAtualizacao = DateTime.Now;
-        }
-
-        public void AlterarStatus(bool ativa)
-        {
-            Ativa = ativa;
-            DataAtualizacao = DateTime.Now;
-        }
-
-        public void AtualizarData(DateTime data)
-        {
-            DataAtualizacao = data;
-        }
-        public void Reativar()
-        {
-            Ativo = true;
-            DataAtualizacao = DateTime.Now;
-        }
-
     }
 }

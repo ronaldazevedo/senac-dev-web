@@ -7,19 +7,18 @@ using System.Threading.Tasks;
 namespace MeuCorre.Domain.Enums
 {
     /// <summary>
-    /// Enum que representa os tipos de limite disponíveis para contas do tipo cartão de crédito.
+    /// Define o tipo de limite aplicável a contas do tipo Cartão de Crédito.
     /// </summary>
     public enum TipoLimite
     {
         /// <summary>
-        /// Limite total disponível.
+        /// Limite total disponível no cartão.
         /// </summary>
         Total = 1,
 
         /// <summary>
-        /// Limite mensal disponível.
+        /// Limite mensal disponível para uso recorrente.
         /// </summary>
         Mensal = 2
     }
-
 }

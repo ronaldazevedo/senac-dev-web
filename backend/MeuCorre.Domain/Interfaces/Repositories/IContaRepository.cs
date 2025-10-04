@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MeuCorre.Application.Interfaces
+namespace MeuCorre.Domain.Interfaces.Repositories
 {
-    public interface IUnitOfWork
+    class IContaRepository
     {
-        Task CommitAsync();
     }
 }

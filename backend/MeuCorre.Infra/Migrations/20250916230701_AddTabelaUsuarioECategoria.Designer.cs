@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MeuCorre.Infra.Migrations
 {
-    [DbContext(typeof(MeuDbContext))]
+    [DbContext(typeof(Data.Context.MeuDbContext))]
     [Migration("20250916230701_AddTabelaUsuarioECategoria")]
     partial class AddTabelaUsuarioECategoria
     {

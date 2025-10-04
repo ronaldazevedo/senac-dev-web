@@ -6,25 +6,26 @@ using System.Threading.Tasks;
 
 namespace MeuCorre.Domain.Enums
 {
-    /// <summary>
-    /// Enum que representa os tipos de conta disponíveis no sistema.
+    // <summary>
+    /// Representa os tipos de conta disponíveis no sistema.
     /// </summary>
+        
     public enum TipoConta
     {
         /// <summary>
-        /// Conta do tipo carteira, usada para armazenar dinheiro físico ou digital.
+        /// Conta do tipo carteira, usada para armazenar dinheiro físico ou valores fora do sistema bancário.
         /// </summary>
         Carteira = 1,
 
         /// <summary>
-        /// Conta bancária tradicional vinculada a uma instituição financeira.
+        /// Conta bancária tradicional, vinculada a uma instituição financeira.
         /// </summary>
         ContaBancaria = 2,
 
         /// <summary>
-        /// Conta de cartão de crédito utilizada para compras parceladas ou à vista.
+        /// Conta de cartão de crédito, usada para registrar gastos e limites de crédito.
         /// </summary>
-        CartaoCredito = 3,
-        Cartao = 4
+        CartaoCredito = 3
     }
 }
+

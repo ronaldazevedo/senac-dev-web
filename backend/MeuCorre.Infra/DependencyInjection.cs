@@ -1,33 +1,25 @@
-﻿using MeuCorre.Application.Interfaces;
+﻿using Application.Interfaces;
 using MeuCorre.Domain.Interfaces.Repositories;
 using MeuCorre.Infra.Data.Context;
 using MeuCorre.Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MeuCorre.Application.Interfaces;
-using MeuCorre.Domain.Interfaces.Repositories;
-using MeuCorre.Application.UseCases.Contas.Queries;
 
-namespace MeuCorre.Infra
+public static class DependencyInjection
 {
-    public static class DependencyInjection
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddDbContext<MeuDbContext>();
+        var connectionString = configuration.GetConnectionString("Mysql");
 
-            // Repositórios obrigatórios
-            services.AddScoped<IContaRepository, ContaRepository>();
-            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            services.AddScoped<ICategoriaRepository, CategoriaRepository>();
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ListarContasQueryHandler).Assembly));
+        services.AddDbContext<MeuDbContext>(options =>
+            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
-            // Unit of Work
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+      
+        services.AddScoped<IContaRepository, ContaRepository>();
+        services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+        services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
-            return services;
-        }
+        return services;
     }
-
 }
