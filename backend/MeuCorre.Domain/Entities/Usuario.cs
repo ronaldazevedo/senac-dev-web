@@ -13,6 +13,9 @@ namespace MeuCorre.Domain.Entities
         // Propriedade de navegação para a entidade Categoria pois
         // o usuário pode ter várias categorias
         public virtual ICollection<Categoria> Categorias { get; set; }
+        // Propriedade de navegação para a entidade Conta
+        public virtual ICollection<Conta> Contas { get; set; }
+
 
 
         //Construtor para criar um novo usuário.

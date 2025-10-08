@@ -20,11 +20,11 @@
     <Folder Include="Data\Migrations\" />
     <Folder Include="Data\Seeds\" />
     <Folder Include="Extensions\" />
-    <Folder Include="Migrations\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MeuCorre.Application\MeuCorre.Application.csproj" />
     <ProjectReference Include="..\MeuCorre.Domain\MeuCorre.Domain.csproj" />
   </ItemGroup>
 

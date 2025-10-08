@@ -1,6 +1,7 @@
 ﻿using MeuCorre.Domain.Entities;
 using MeuCorre.Domain.Enums;
 
+
 namespace MeuCorre.Domain.Interfaces.Repositories
 {
     public interface ICategoriaRepository

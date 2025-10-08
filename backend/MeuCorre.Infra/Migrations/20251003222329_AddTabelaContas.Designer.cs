@@ -11,9 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MeuCorre.Infra.Migrations
 {
-    [DbContext(typeof(Data.Context.MeuDbContext))]
-    [Migration("20250916230701_AddTabelaUsuarioECategoria")]
-    partial class AddTabelaUsuarioECategoria
+    [DbContext(typeof(MeuDbContext))]
+    [Migration("20251003222329_AddTabelaContas")]
+    partial class AddTabelaContas
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,8 +35,7 @@ namespace MeuCorre.Infra.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Cor")
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("DataAtualizacao")
                         .HasColumnType("datetime(6)");
@@ -45,17 +44,14 @@ namespace MeuCorre.Infra.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Descricao")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Icone")
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("TipoDaTransacao")
                         .HasColumnType("int");
@@ -67,7 +63,60 @@ namespace MeuCorre.Infra.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Categorias", (string)null);
+                    b.ToTable("Categorias");
+                });
+
+            modelBuilder.Entity("MeuCorre.Domain.Entities.Conta", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Cor")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("DataAtualizacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("DiaFechamento")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DiaVencimento")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Icone")
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal?>("Limite")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal>("Saldo")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("Tipo")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TipoLimite")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Conta");
                 });
 
             modelBuilder.Entity("MeuCorre.Domain.Entities.Usuario", b =>
@@ -90,13 +139,11 @@ namespace MeuCorre.Infra.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Senha")
                         .IsRequired()
@@ -104,10 +151,7 @@ namespace MeuCorre.Infra.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.ToTable("Usuarios", (string)null);
+                    b.ToTable("Usuarios");
                 });
 
             modelBuilder.Entity("MeuCorre.Domain.Entities.Categoria", b =>
@@ -121,9 +165,22 @@ namespace MeuCorre.Infra.Migrations
                     b.Navigation("Usuario");
                 });
 
+            modelBuilder.Entity("MeuCorre.Domain.Entities.Conta", b =>
+                {
+                    b.HasOne("MeuCorre.Domain.Entities.Usuario", "Usuario")
+                        .WithMany("Contas")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("MeuCorre.Domain.Entities.Usuario", b =>
                 {
                     b.Navigation("Categorias");
+
+                    b.Navigation("Contas");
                 });
 #pragma warning restore 612, 618
         }
