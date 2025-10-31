@@ -4,7 +4,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,NgbDropdownModule],
+  imports: [RouterOutlet, NgbDropdownModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
