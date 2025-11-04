@@ -20,3 +20,11 @@
 .mc-text-green{
     color: var(--mc-green);
 }
+
+.btn-outline-secondary {
+    --bs-btn-color: #A0A0A0;
+    --bs-btn-border-color: #F2F4FF;
+    --bs-btn-hover-color: #989898;
+    --bs-btn-hover-bg: #f2f4fe;
+    --bs-btn-hover-border-color: #f2f4ef;
+}
