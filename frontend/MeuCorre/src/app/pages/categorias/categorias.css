@@ -1,0 +1,35 @@
+.abas-container {
+    display: flex; /* Para colocar as abas lado a lado */
+    border-bottom: 1px solid #ccc; /* Linha cinza que corre por baixo de tudo */
+    padding-left: 10px; /* Ajuste se necessário */
+    padding-right: 10px; /* Ajuste se necessário */
+}
+
+
+.aba {
+    background: none; /* Sem fundo padrão */
+    border: none; /* Sem borda padrão */
+    cursor: pointer;
+    padding: 10px 15px; /* Espaçamento interno */
+    font-size: 16px;
+    color: #6c757d; /* Cor do texto das abas inativas (um cinza claro) */
+    position: relative; /* Essencial para posicionar o sublinhado */
+    margin-right: 20px; /* Espaço entre as abas */
+    font-weight: 500; /* Pode ser útil para a fonte */
+    /* Remove a borda padrão do button, se houver */
+    border-bottom: 3px solid transparent; 
+}
+
+/* Estilo da aba ATIVA (selecionada) */
+.aba.active {
+    color: #38a169; /* Cor do texto da aba ativa (verde) */
+    font-weight: bold; /* Deixa o texto mais pesado, se desejar */
+    /* Cria o sublinhado verde, sobrepondo a linha cinza do .abas-container */
+    border-bottom: 3px solid #38a169; 
+    margin-bottom: -1px; /* Para que a linha verde 'coma' a linha cinza de baixo */
+}
+
+/* Opcional: Efeito ao passar o mouse */
+.aba:hover {
+    color: #38a169; /* Mudar a cor ao passar o mouse */
+}

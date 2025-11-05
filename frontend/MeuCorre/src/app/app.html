@@ -32,7 +32,7 @@
           </a>
           <div ngbDropdownMenu aria-labelledby="dropConfiguracao">
             <button ngbDropdownItem>Contas</button>
-            <button ngbDropdownItem>Categorias</button>
+            <a routerLink="/config/categorias" ngbDropdownItem>Categorias</a>
             <button ngbDropdownItem>Cartão de Crédito</button>
             <div class="dropdown-divider"></div>
             <button ngbDropdownItem>Preferências</button>
@@ -55,4 +55,6 @@
 <nav class="navbar bg-white mb-5">
   <div class="container-xxl">Assine o premium</div>
 </nav>
-<router-outlet></router-outlet>
+<div class="container-lg">
+  <router-outlet></router-outlet>
+</div>
