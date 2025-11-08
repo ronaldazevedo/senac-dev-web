@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { CategoriaModel } from './models/categoria.model';
+import { IconAvatar } from '../../shared/components/icon-avatar/icon-avatar';
 
 @Component({
   selector: 'app-categorias',
-  imports: [NgbNavModule],
+  imports: [NgbNavModule,IconAvatar],
   templateUrl: './categorias.html',
   styleUrl: './categorias.css',
 })
@@ -17,7 +18,7 @@ export class Categorias {
       nome: 'Salário', 
       descricao: 'Recebimento mensal', 
       cor: '#28a745', 
-      icone: '', 
+      icone: 'ri-bank-line', 
       ativo: true
     },
     {
@@ -25,7 +26,7 @@ export class Categorias {
       nome: 'Freelance',
       descricao: 'Trabalhos avulsos',
       cor: '#17a2b8',
-      icone: '',
+      icone: 'ri-briefcase-line',
       ativo: true
     },
     {
@@ -33,7 +34,7 @@ export class Categorias {
       nome: 'Investimentos',
       descricao: 'Rendimentos de investimentos',
       cor: '#ffc107',
-      icone: '',
+      icone: 'ri-line-chart-line',
       ativo: true
     },
   ];
@@ -44,7 +45,7 @@ export class Categorias {
       nome: 'Alimentação',
       descricao: 'Alimentação',
       cor: '#dc3545',
-      icone: 'fas fa-utensils',
+      icone: 'ri-restaurant-line',
       ativo: true
     },
     {
@@ -52,7 +53,7 @@ export class Categorias {
       nome: 'Transporte',
       descricao: 'Despesas com transporte',
       cor: '#fd7e14',
-      icone: 'fas fa-bus',
+      icone: 'ri-bus-line', 
       ativo: true
     },
     {
@@ -60,8 +61,9 @@ export class Categorias {
       nome: 'Lazer',
       descricao: 'Despesas com lazer',
       cor: '#ffc107',
-      icone: 'fas fa-film' ,
+      icone: 'ri-film-line',
       ativo: true
     },
   ];
+receita: any;
 }

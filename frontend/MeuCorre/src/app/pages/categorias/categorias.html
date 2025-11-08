@@ -14,22 +14,22 @@
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th scope="col">id</th>
+								<th scope="col"></th>
 								<th scope="col">Nome</th>
-								<th scope="col">descricao</th>
-								<th scope="col">cor</th>
-                <th scope="col">icone</th>
-                <th scope="col">ativo</th>
+								<th scope="col">Descrição</th>
+								<th scope="col">Status</th>
+								<th scope="col">Ações</th>
 							</tr>
 						</thead>
 						<tbody>
 							@for (despesa of categorias_despesas; track despesa.nome; let i = $index) {
 							<tr>
-								<th scope="row">{{ i + 1 }}</th>
 								<td>
-									<i class="{{despesa.icone}}"></i>
+									<app-icon-avatar [icone]="despesa.icone" [cor]="despesa.cor"></app-icon-avatar>
 								</td>
 								<td>{{ despesa.nome }}</td>
+								<td>{{ despesa.descricao }}</td>
+								<td>{{ despesa.ativo }}</td>
 								<td>botao</td>
 							</tr>
 							}
@@ -43,22 +43,22 @@
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th scope="col">id</th>
+								<th scope="col"></th>
 								<th scope="col">Nome</th>
-								<th scope="col">descricao</th>
-								<th scope="col">cor</th>
-                <th scope="col">icone</th>
-                <th scope="col">ativo</th>
+								<th scope="col">Descrição</th>
+								<th scope="col">Status</th>
+								<th scope="col">Ações</th>
 							</tr>
 						</thead>
 						<tbody>
 							@for (receita of categorias_receitas; track receita.nome; let i = $index) {
 							<tr>
-								<th scope="row">{{ i + 1 }}</th>
 								<td>
-									<i class="{{receita.icone}}"></i>
+									<app-icon-avatar [icone]="receita.icone" [cor]="receita.cor"></app-icon-avatar>
 								</td>
 								<td>{{ receita.nome }}</td>
+								<td>{{ receita.descricao }}</td>
+								<td>{{ receita.ativo }}</td>
 								<td>botao</td>
 							</tr>
 							}
