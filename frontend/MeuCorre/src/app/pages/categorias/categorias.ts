@@ -1,24 +1,36 @@
-import { Component } from '@angular/core';
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import { CategoriaModel } from './models/categoria.model';
-import { IconAvatar } from '../../shared/components/icon-avatar/icon-avatar';
+import { Component, inject, WritableSignal, signal, TemplateRef } from "@angular/core";
+import { NgbNavModule, NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
+import { IconAvatar } from "../../shared/components/icon-avatar/icon-avatar";
+import { CategoriaModel } from "./models/categoria.model";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { StatusBadge } from "../../shared/components/status-badge/status-badge";
+
 
 @Component({
   selector: 'app-categorias',
-  imports: [NgbNavModule,IconAvatar],
+  imports: [NgbNavModule, IconAvatar, StatusBadge, ReactiveFormsModule],
   templateUrl: './categorias.html',
   styleUrl: './categorias.css',
 })
 export class Categorias {
+
+  private modalService = inject(NgbModal);
+  closeResult: WritableSignal<string> = signal('');
+
+  nome = new FormControl('');
+  descricao = new FormControl('');
+  cor = new FormControl('');
+  icone = new FormControl('');
   active = 1;
+
 
   categorias_receitas: CategoriaModel[] = [
     {
-      id: '1', 
-      nome: 'Salário', 
-      descricao: 'Recebimento mensal', 
-      cor: '#28a745', 
-      icone: 'ri-bank-line', 
+      id: '1',
+      nome: 'Salário',
+      descricao: 'Recebimento mensal',
+      cor: '#28a745',
+      icone: 'ri-bank-line',
       ativo: true
     },
     {
@@ -53,7 +65,7 @@ export class Categorias {
       nome: 'Transporte',
       descricao: 'Despesas com transporte',
       cor: '#fd7e14',
-      icone: 'ri-bus-line', 
+      icone: 'ri-bus-line',
       ativo: true
     },
     {
@@ -65,5 +77,44 @@ export class Categorias {
       ativo: true
     },
   ];
-receita: any;
+  open(content: TemplateRef<any>) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+      (result) => {
+        this.closeResult.set(`Closed with: ${result}`);
+      },
+      (reason) => {
+        this.closeResult.set(`Dismissed ${this.getDismissReason(reason)}`);
+      },
+    );
+  }
+
+  private getDismissReason(reason: any): string {
+    switch (reason) {
+      case ModalDismissReasons.ESC:
+        return 'by pressing ESC';
+      case ModalDismissReasons.BACKDROP_CLICK:
+        return 'by clicking on a backdrop';
+      default:
+        return `with: ${reason}`;
+    }
+  }
+
+  cadastrarCategoria(){
+    console.log(this.nome.value);
+    console.log(this.descricao.value);
+    console.log(this.cor.value);
+    console.log(this.icone.value);
+
+    this.categorias_receitas.push({
+      id: '',
+      nome: this.nome.value!,
+      descricao: this.descricao.value!,
+      cor: this.cor.value!,
+      icone: this.icone.value!,
+      ativo: true
+    });
+   console.log(this.categorias_receitas);
+   this.modalService.dismissAll();
+  }
+
 }
