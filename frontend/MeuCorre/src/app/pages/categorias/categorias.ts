@@ -1,14 +1,9 @@
-import { Component, inject, signal, TemplateRef, WritableSignal } from '@angular/core';
-import {
-  ModalDismissReasons,
-  NgbModal,
-  NgbNavModule,
-  NgbTooltipModule,
-} from '@ng-bootstrap/ng-bootstrap';
+import { Component, inject, TemplateRef } from '@angular/core';
+import { NgbModal, NgbNavModule, NgbTooltipModule, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CategoriaModel } from './models/categoria.model';
 import { IconAvatar } from '../../shared/components/icon-avatar/icon-avatar';
 import { StatusBadge } from '../../shared/components/status-badge/status-badge';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-categorias',
@@ -18,16 +13,46 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 })
 export class Categorias {
   private modalService = inject(NgbModal);
-  closeResult: WritableSignal<string> = signal('');
 
   nome = new FormControl('');
   descricao = new FormControl('');
-  cor = new FormControl('');
+  cor = new FormControl('#000000');
   icone = new FormControl('');
-
   active = 1;
 
-  listaCategorias: CategoriaModel[] = [
+  categoriaEditando: CategoriaModel | null = null;
+
+  categorias_despesas: CategoriaModel[] = [
+    {
+      id: '1',
+      nome: 'Alimentação',
+      descricao: 'Gastos com comida',
+      cor: '#dc3545',
+      icone: 'ri-restaurant-line',
+      tipo: 'despesa',
+      ativo: true,
+    },
+    {
+      id: '2',
+      nome: 'Transporte',
+      descricao: 'Uber, ônibus, etc',
+      cor: '#fd7e14',
+      icone: 'ri-bus-line',
+      tipo: 'despesa',
+      ativo: true,
+    },
+    {
+    id: '3',
+      nome: 'Lazer',
+      descricao: 'Despesas com lazer',
+      cor: '#ffc107',
+      icone: 'ri-film-line',
+      tipo: 'despesa',
+      ativo: true,
+    },
+  ];
+
+  categorias_receitas: CategoriaModel[] = [
     {
       id: '1',
       nome: 'Salário',
@@ -40,7 +65,7 @@ export class Categorias {
     {
       id: '2',
       nome: 'Freelance',
-      descricao: 'Trabalhos avulsos',
+      descricao: 'Trabalhos extras',
       cor: '#17a2b8',
       icone: 'ri-briefcase-line',
       tipo: 'receita',
@@ -53,98 +78,74 @@ export class Categorias {
       cor: '#ffc107',
       icone: 'ri-line-chart-line',
       tipo: 'receita',
-      ativo: true,
-    },{
-      id: '1',
-      nome: 'Alimentação',
-      descricao: 'Alimentação',
-      cor: '#dc3545',
-      icone: 'ri-restaurant-line',
-      tipo: 'despesa',
-      ativo: true,
-    },
-    {
-      id: '2',
-      nome: 'Transporte',
-      descricao: 'Despesas com transporte',
-      cor: '#fd7e14',
-      icone: 'ri-bus-line',
-      tipo: 'despesa',
-      ativo: true,
-    },
-    {
-      id: '3',
-      nome: 'Lazer',
-      descricao: 'Despesas com lazer',
-      cor: '#ffc107',
-      icone: 'ri-film-line',  
-      tipo: 'despesa',
       ativo: false,
     },
   ];
 
-  open(content: TemplateRef<any>) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      (result) => {
-        this.closeResult.set(`Closed with: ${result}`);
-      },
-      (reason) => {
-        this.closeResult.set(`Dismissed ${this.getDismissReason(reason)}`);
-      }
-    );
-  ];
-
-  categorias_despesas: CategoriaModel[] = [
-    
-  }
-
-  private getDismissReason(reason: any): string {
-    switch (reason) {
-      case ModalDismissReasons.ESC:
-        return 'by pressing ESC';
-      case ModalDismissReasons.BACKDROP_CLICK:
-        return 'by clicking on a backdrop';
-      default:
-        return `with: ${reason}`;
+ 
+  open(content: TemplateRef<any>, categoria?: CategoriaModel) {
+    if (categoria) {
+      this.categoriaEditando = categoria;
+      this.nome.setValue(categoria.nome);
+      this.descricao.setValue(categoria.descricao);
+      this.cor.setValue(categoria.cor);
+      this.icone.setValue(categoria.icone);
+      this.active = categoria.tipo === 'despesa' ? 1 : 2;
+    } else {
+      this.categoriaEditando = null;
+      this.nome.reset();
+      this.descricao.reset();
+      this.cor.setValue('#000000');
+      this.icone.reset();
     }
+
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
+
 
   cadastrarCategoria() {
-    const novaCategoria = {
-      id: Date.now().toString(),
+    const novaCategoria: CategoriaModel = {
+      id: this.categoriaEditando ? this.categoriaEditando.id : Date.now().toString(),
       nome: this.nome.value!,
       descricao: this.descricao.value!,
       cor: this.cor.value!,
       icone: this.icone.value!,
+      tipo: this.active === 1 ? 'despesa' : 'receita',
       ativo: true,
     };
 
-    if (this.active === 1) {
-      this.listaCategorias.push(novaCategoria);
-    } else if (this.active === 2) {
-      this.listaCategorias.push(novaCategoria);
+    if (this.categoriaEditando) {
+     
+      if (novaCategoria.tipo === 'despesa') {
+        this.categorias_despesas = this.categorias_despesas.map(c =>
+          c.id === novaCategoria.id ? novaCategoria : c
+        );
+      } else {
+        this.categorias_receitas = this.categorias_receitas.map(c =>
+          c.id === novaCategoria.id ? novaCategoria : c
+        );
+      }
+    } else {
+      // Novo
+      if (novaCategoria.tipo === 'despesa') {
+        this.categorias_despesas.push(novaCategoria);
+      } else {
+        this.categorias_receitas.push(novaCategoria);
+      }
     }
 
     this.modalService.dismissAll();
+    this.categoriaEditando = null;
   }
 
+  
   excluirCategoriaDespesa(id: string) {
-    //filter cria um novo array a partir de um array existe de acordo com a
-    //condição passada.
-    this.listaCategorias = this.listaCategorias.filter(
-      (categoria) => categoria.id !== id.toString()
-    );
+    this.categorias_despesas = this.categorias_despesas.filter(c => c.id !== id);
   }
 
   excluirCategoriaReceita(id: string) {
-    //filter cria um novo array a partir de um array existe de acordo com a
-    //condição passada.
-    this.listaCategorias = this.listaCategorias.filter(
-      (categoria) => categoria.id !== id.toString()
-    );
+    this.categorias_receitas = this.categorias_receitas.filter(c => c.id !== id);
   }
 
-  editarCategoriaDespesa(id: string) {
-
-}
+  
 }
