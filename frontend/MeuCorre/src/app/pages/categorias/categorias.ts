@@ -20,7 +20,7 @@ export class Categorias {
   icone = new FormControl('');
   active = 1;
 
-  categoriaEditando: CategoriaModel | null = null;
+  editarCategoria: CategoriaModel | null = null;
 
   categorias_despesas: CategoriaModel[] = [
     {
@@ -82,17 +82,16 @@ export class Categorias {
     },
   ];
 
- 
   open(content: TemplateRef<any>, categoria?: CategoriaModel) {
-    if (categoria) {
-      this.categoriaEditando = categoria;
+    if (categoria) { 
+      this.editarCategoria = categoria;
       this.nome.setValue(categoria.nome);
       this.descricao.setValue(categoria.descricao);
       this.cor.setValue(categoria.cor);
       this.icone.setValue(categoria.icone);
       this.active = categoria.tipo === 'despesa' ? 1 : 2;
     } else {
-      this.categoriaEditando = null;
+      this.editarCategoria = null;
       this.nome.reset();
       this.descricao.reset();
       this.cor.setValue('#000000');
@@ -105,7 +104,7 @@ export class Categorias {
 
   cadastrarCategoria() {
     const novaCategoria: CategoriaModel = {
-      id: this.categoriaEditando ? this.categoriaEditando.id : Date.now().toString(),
+      id: this.editarCategoria ? this.editarCategoria.id : Date.now().toString(),
       nome: this.nome.value!,
       descricao: this.descricao.value!,
       cor: this.cor.value!,
@@ -114,7 +113,7 @@ export class Categorias {
       ativo: true,
     };
 
-    if (this.categoriaEditando) {
+    if (this.editarCategoria) {
      
       if (novaCategoria.tipo === 'despesa') {
         this.categorias_despesas = this.categorias_despesas.map(c =>
@@ -126,7 +125,7 @@ export class Categorias {
         );
       }
     } else {
-      // Novo
+      
       if (novaCategoria.tipo === 'despesa') {
         this.categorias_despesas.push(novaCategoria);
       } else {
@@ -135,7 +134,7 @@ export class Categorias {
     }
 
     this.modalService.dismissAll();
-    this.categoriaEditando = null;
+    this.editarCategoria = null;
   }
 
   

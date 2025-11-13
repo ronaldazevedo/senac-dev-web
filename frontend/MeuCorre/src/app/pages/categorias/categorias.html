@@ -101,7 +101,7 @@
     <ng-template #modalCategorias let-modal>
       <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">
-          {{ categoriaEditando ? 'Editar categoria' : 'Cadastrar categoria' }}
+          {{ editarCategoria ? 'Editar categoria' : 'Cadastrar categoria' }}
         </h4>
         <button
           type="button"
@@ -140,7 +140,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" (click)="cadastrarCategoria()">
-          {{ categoriaEditando ? 'Salvar alterações' : 'Salvar' }}
+          {{ editarCategoria ? 'Salvar alterações' : 'Salvar' }}
         </button>
       </div>
     </ng-template>
