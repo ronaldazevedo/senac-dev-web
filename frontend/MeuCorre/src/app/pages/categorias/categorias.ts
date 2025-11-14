@@ -1,9 +1,10 @@
-import { Component, inject, TemplateRef } from '@angular/core';
+import { Component, inject, OnInit, signal, TemplateRef } from '@angular/core';
 import { NgbModal, NgbNavModule, NgbTooltipModule, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CategoriaModel } from './models/categoria.model';
 import { IconAvatar } from '../../shared/components/icon-avatar/icon-avatar';
 import { StatusBadge } from '../../shared/components/status-badge/status-badge';
+import { CategoriaService } from './services/categoria.service';
 
 @Component({
   selector: 'app-categorias',
@@ -11,8 +12,11 @@ import { StatusBadge } from '../../shared/components/status-badge/status-badge';
   templateUrl: './categorias.html',
   styleUrl: './categorias.css',
 })
-export class Categorias {
+export class Categorias implements OnInit {
+  
+
   private modalService = inject(NgbModal);
+  private categoriaService = inject(CategoriaService);
 
   nome = new FormControl('');
   descricao = new FormControl('');
@@ -20,6 +24,8 @@ export class Categorias {
   icone = new FormControl('');
   active = 1;
 
+  listaCategorias = signal<CategoriaModel[]>([]);
+  
   editarCategoria: CategoriaModel | null = null;
 
   categorias_despesas: CategoriaModel[] = [
@@ -82,6 +88,18 @@ export class Categorias {
     },
   ];
 
+  ngOnInit(): void {
+   this.carregharTodasCategorias();
+  }
+
+  carregharTodasCategorias() {
+    this.categoriaService.obterTodasPorUsuarios().subscribe({
+      next: (dados) => {
+        this.listaCategorias.set(dados);
+      }
+    });
+  }
+
   open(content: TemplateRef<any>, categoria?: CategoriaModel) {
     if (categoria) { 
       this.editarCategoria = categoria;
@@ -100,7 +118,6 @@ export class Categorias {
 
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
-
 
   cadastrarCategoria() {
     const novaCategoria: CategoriaModel = {

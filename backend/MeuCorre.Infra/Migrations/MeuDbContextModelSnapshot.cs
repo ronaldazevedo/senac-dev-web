@@ -165,68 +165,6 @@ namespace MeuCorre.Infra.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MeuCorre.Domain.Entities.Conta", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<bool>("Ativo")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Cor")
-                        .IsRequired()
-                        .HasMaxLength(7)
-                        .HasColumnType("varchar(7)");
-
-                    b.Property<DateTime?>("DataAtualizacao")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("DataCriacao")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("DiaFechamento")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DiaVencimento")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Icone")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<decimal?>("Limite")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<decimal>("Saldo")
-                        .HasColumnType("decimal(10,2)");
-
-                    b.Property<int>("Tipo")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TipoLimite")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("UsuarioId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Ativo");
-
-                    b.HasIndex("Tipo");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Contas", (string)null);
-                });
-
             modelBuilder.Entity("MeuCorre.Domain.Entities.Usuario", b =>
                 {
                     b.Property<Guid>("Id")
@@ -272,9 +210,9 @@ namespace MeuCorre.Infra.Migrations
                             Id = new Guid("da3b9f4c-8e6a-4a4f-9e6b-1c2d3e4f5a6b"),
                             Ativo = true,
                             DataCriacao = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DataNascimento = new DateTime(1985, 7, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "weltoncastoldi@hotmail.com",
-                            Nome = "Welton Castoldi",
+                            DataNascimento = new DateTime(2007, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "ronald@gmail.com",
+                            Nome = "ronald azevedo",
                             Senha = "123456"
                         });
                 });
@@ -290,22 +228,9 @@ namespace MeuCorre.Infra.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("MeuCorre.Domain.Entities.Conta", b =>
-                {
-                    b.HasOne("MeuCorre.Domain.Entities.Usuario", "Usuario")
-                        .WithMany("Contas")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Usuario");
-                });
-
             modelBuilder.Entity("MeuCorre.Domain.Entities.Usuario", b =>
                 {
                     b.Navigation("Categorias");
-
-                    b.Navigation("Contas");
                 });
 #pragma warning restore 612, 618
         }

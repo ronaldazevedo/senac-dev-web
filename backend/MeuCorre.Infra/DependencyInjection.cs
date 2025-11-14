@@ -1,5 +1,4 @@
-﻿using Application.Interfaces;
-using MeuCorre.Domain.Interfaces.Repositories;
+﻿using MeuCorre.Domain.Interfaces.Repositories;
 using MeuCorre.Infra.Data.Context;
 using MeuCorre.Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +15,7 @@ public static class DependencyInjection
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
       
-        services.AddScoped<IContaRepository, ContaRepository>();
+      
         services.AddScoped<ICategoriaRepository, CategoriaRepository>();
         services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
